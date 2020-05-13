@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+import { Sequelize } from 'sequelize';
 
 export class Ticket extends Sequelize.Model {
   static init(sequelize, DataTypes) {
@@ -6,17 +6,21 @@ export class Ticket extends Sequelize.Model {
       {
         parentId: DataTypes.INTEGER,
         title: DataTypes.STRING,
-        isCompleted: DataTypes.BOOLEAN
+        isCompleted: DataTypes.BOOLEAN,
       },
       {
         sequelize,
-        tableName: "tickets"
+        tableName: 'tickets',
       }
     );
   }
 
   static associate(models) {
-    Ticket.hasMany(Ticket, { as: "children", foreignKey: "parentId" });
-    Ticket.belongsTo(Ticket, { as: "parent", foreignKey: "parentId" });
+    Ticket.hasMany(Ticket, {
+      as: 'children',
+      foreignKey: 'parentId',
+      onDelete: 'cascade',
+    });
+    Ticket.belongsTo(Ticket, { as: 'parent', foreignKey: 'parentId' });
   }
 }
